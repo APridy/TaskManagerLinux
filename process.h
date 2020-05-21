@@ -1,5 +1,6 @@
 #ifndef PROCESS_H
 #define PROCESS_H
+#include "texttransit.h"
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,9 +20,6 @@ private:
     int pid;
 public:
     Process();
-    string itomem(int);
-    string itoa(int);
-    string dtoa(double,int);
 
     void set_name(string);
     void set_user(string);
