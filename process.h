@@ -14,17 +14,15 @@ private:
     string name;
     string user;
     string cmdline;
-    int cpuper;
     int mem;
     int threads;
     int pid;
 public:
     Process();
-
+    Process(int);
     void set_name(string);
     void set_user(string);
     void set_cmdline(string);
-    void set_cpuper(int);
     void set_mem(int);
     void set_threads(int);
     void set_pid(int);
@@ -32,10 +30,16 @@ public:
     string get_name();
     string get_user();
     string get_cmdline();
-    int get_cpuper();
     int get_mem();
     int get_threads();
     int get_pid();
+
+    string extract_name();
+    string extract_user();
+    string extract_cmdline();
+    int extract_mem();
+    int extract_threads();
+    int extract_pid();
 
     void print_process();
 };

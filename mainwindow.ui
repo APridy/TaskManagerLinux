@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>871</width>
-    <height>570</height>
+    <width>1125</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../Desktop/4671521.599e25e1.1200x1200o.13ee0ea912b2.jpeg</normaloff>../../Desktop/4671521.599e25e1.1200x1200o.13ee0ea912b2.jpeg</iconset>
+    <normaloff>close_process.png</normaloff>close_process.png</iconset>
   </property>
   <property name="accessibleName">
    <string/>
@@ -29,8 +29,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>881</width>
-      <height>641</height>
+      <width>1121</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -48,8 +48,8 @@
        <rect>
         <x>10</x>
         <y>80</y>
-        <width>851</width>
-        <height>451</height>
+        <width>1101</width>
+        <height>551</height>
        </rect>
       </property>
       <property name="mouseTracking">
@@ -72,8 +72,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>835</width>
-         <height>449</height>
+         <width>1085</width>
+         <height>549</height>
         </rect>
        </property>
       </widget>
@@ -81,7 +81,7 @@
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>720</x>
+        <x>920</x>
         <y>20</y>
         <width>131</width>
         <height>31</height>
@@ -140,7 +140,7 @@
      <widget class="QLabel" name="label_10">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>410</x>
         <y>60</y>
         <width>121</width>
         <height>17</height>
@@ -153,7 +153,7 @@
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>220</x>
         <y>60</y>
         <width>101</width>
         <height>17</height>
@@ -166,7 +166,7 @@
      <widget class="QLabel" name="label_12">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>820</x>
         <y>60</y>
         <width>101</width>
         <height>17</height>
@@ -179,7 +179,7 @@
      <widget class="QSpinBox" name="spinBox">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>870</x>
         <y>20</y>
         <width>41</width>
         <height>31</height>
@@ -198,7 +198,7 @@
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>870</x>
         <y>0</y>
         <width>171</width>
         <height>21</height>
@@ -221,6 +221,19 @@
        <string>Сортировать по:</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>60</y>
+        <width>91</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>К-во потоков</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -231,7 +244,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>851</width>
+        <width>1101</width>
         <height>121</height>
        </rect>
       </property>
@@ -298,6 +311,9 @@
            <property name="value">
             <number>0</number>
            </property>
+           <property name="format">
+            <string>%p%</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -309,8 +325,8 @@
        <rect>
         <x>10</x>
         <y>160</y>
-        <width>431</width>
-        <height>371</height>
+        <width>501</width>
+        <height>441</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -328,7 +344,7 @@
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>190</x>
         <y>140</y>
         <width>151</width>
         <height>20</height>
@@ -336,6 +352,19 @@
       </property>
       <property name="text">
        <string>Загрузка процессора:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>250</y>
+        <width>89</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
       </property>
      </widget>
     </widget>

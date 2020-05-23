@@ -13,14 +13,12 @@ class SysInfo
 {
 private:
     vector<Process> process_array;
-    int totalmem;
 public:
     SysInfo();
     void refresh_process_array();
 
     vector<Process> get_process_array();
     int get_mem(int);
-    int get_cpuper(int);
     int get_threads(int);
     int get_totalmem();
     string get_name(int);
