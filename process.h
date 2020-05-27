@@ -31,7 +31,6 @@ public:
     void set_mem(int);
     void set_threads(int);
     void set_pid(int);
-    void set_cpuper(double);
 
     string get_name();
     string get_user();
@@ -39,7 +38,6 @@ public:
     int get_mem();
     int get_threads();
     int get_pid();
-    double get_cpuper();
 
     string extract_name();
     string extract_user();
@@ -47,7 +45,6 @@ public:
     int extract_mem();
     int extract_threads();
     int extract_pid();
-    double extract_cpuper();
 
     void print_process();
 };

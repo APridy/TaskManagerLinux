@@ -8,7 +8,6 @@ CPUInfo::CPUInfo()
     set_totalRAM(extract_totalRAM());
     set_totalRAM_usage(extract_totalRAM_usage());
     cpu_usage.resize(TextTransit::atoi(TextTransit::systemExec("cat /proc/cpuinfo | grep processor | wc -l")));
-   // set_cpu_usage(extract_cpu_usage());
 }
 
 string CPUInfo::get_model() {

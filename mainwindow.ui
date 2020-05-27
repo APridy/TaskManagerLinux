@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>close_process.png</normaloff>close_process.png</iconset>
+    <normaloff>window_icon.png</normaloff>window_icon.png</iconset>
   </property>
   <property name="accessibleName">
    <string/>
@@ -105,17 +105,17 @@
       </property>
       <item>
        <property name="text">
-        <string>Идентификатор</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
         <string>Загрузка RAM</string>
        </property>
       </item>
       <item>
        <property name="text">
         <string>Имя</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Идентификатор</string>
        </property>
       </item>
       <item>

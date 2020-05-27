@@ -19,7 +19,6 @@
 
 namespace Ui {
 class MainWindow;
-//class CPUInfo;
 }
 
 class MainWindow : public QMainWindow
@@ -31,11 +30,8 @@ public:
     SysInfo sysinfo;
     CPUInfo cpuinfo;
 
-    int sorting_type = 1;
-    string min_name = "zzzzzzzzzzzz";
-
+    int sorting_type = 2;
     QGridLayout *g = new QGridLayout();
-
     vector<QHBoxLayout*> h;
     vector<QLabel*> l_name ;
     vector<QLabel*> l_threads ;
@@ -44,8 +40,6 @@ public:
     vector<QLabel*> l_user ;
     vector<QLabel*> l_cmdline ;
     vector<bool> allow_deleting_process;
-    //vector<QPushButton*> cls;
-    //vector<QPushButton*> cmd;
 
     vector<QLabel*> cpulabels;
     vector<QProgressBar*> cpus;
@@ -54,15 +48,12 @@ public:
     void load_labels_into_window();
     void refresh_process_list();
     void refresh_cpu();
-    string coutt();
     ~MainWindow();
 
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_comboBox_currentTextChanged(const QString &arg1);
 
 private:

@@ -10,8 +10,8 @@ InfoUpdaterThread::InfoUpdaterThread(QString threadName,MainWindow *window) :
 
 void InfoUpdaterThread::run()
 {
-    while(1) {
-    qDebug() << name;
+    while(1) {  
     w->refresh_cpu();
+    qDebug() << "Cpu refreshed";
     }
 }

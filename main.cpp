@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    InfoUpdaterThread info_updater("InfoUpdater", &w);
-    info_updater.start();
+    InfoUpdaterThread *info_updater = new InfoUpdaterThread("InfoUpdater", &w);
+    info_updater->start();
     return a.exec();
 }

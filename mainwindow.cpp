@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstdlib>
-#include <QDebug>
 
 using namespace std;
 
@@ -13,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QPixmap window_pic("/home/tony/projects/TaskManagerSPOVM/window_icon.png");
+    QIcon window_icon(window_pic);
+    this->setWindowIcon(window_icon);
 
     ui->label_3->setText(cpuinfo.get_model().c_str());
     ui->label_5->setText(TextTransit::itoa(cpuinfo.get_cpu_num()).c_str());
@@ -52,14 +55,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::load_processes_into_labels(){
-
-     QPixmap pic("/home/tony/projects/TaskManagerSPOVM/close_process.png");
-     QIcon icon(pic);
-
-
-     //for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
-     int i = 0;
-     int j = 0;
+     uint i = 0;
      vector<bool> allow_to_push;
      allow_to_push.resize(sysinfo.get_process_array().size());
      for(i = 0; i < allow_to_push.size(); i++){
@@ -73,10 +69,8 @@ void MainWindow::load_processes_into_labels(){
          QLabel *ll_pid = new QLabel();
          QLabel *ll_user = new QLabel();
          QLabel *ll_cmdline = new QLabel();
-         //QPushButton *ccls = new QPushButton();
-         //QPushButton *ccmd = new QPushButton();
          QLabel *ll_name = new QLabel();
-        // if(sorting_type == 1) {
+
          switch(sorting_type) {
          case 1:{
              ll_name->setText(sysinfo.get_process_array()[i].get_name().c_str());
@@ -90,7 +84,7 @@ void MainWindow::load_processes_into_labels(){
          case 2: {
              int min_pos;
              int min_RAM = 0;
-             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+             for(uint j = 0; j < sysinfo.get_process_array().size(); j++){
                  if((sysinfo.get_process_array()[j].get_mem() >= min_RAM) && (allow_to_push[j] == true)){
                  min_RAM = sysinfo.get_process_array()[j].get_mem();
                  min_pos = j;
@@ -106,10 +100,9 @@ void MainWindow::load_processes_into_labels(){
              break;
          }
          case 3: {
-             ////////////////////////////
              int min_pos;
              string max_name = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+             for(uint j = 0; j < sysinfo.get_process_array().size(); j++){
                  int k = 0;
                  while(1) {
                  if((sysinfo.get_process_array()[j].get_name()[k] < max_name[k]) && (allow_to_push[j] == true)){
@@ -135,7 +128,7 @@ void MainWindow::load_processes_into_labels(){
          case 4: {
              int min_pos;
              int min_threads = 0;
-             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+             for(uint j = 0; j < sysinfo.get_process_array().size(); j++){
                  if((sysinfo.get_process_array()[j].get_threads() >= min_threads) && (allow_to_push[j] == true)){
                     min_threads = sysinfo.get_process_array()[j].get_threads();
                     min_pos = j;
@@ -151,10 +144,6 @@ void MainWindow::load_processes_into_labels(){
              break;
          }
          }
-        // ccmd->setMaximumSize(36,22);
-         //ccmd->setText("CMD");
-        // ccls->setMaximumSize(20,20);
-         //ccls->setIcon(pic);
          allow_deleting_process.push_back(permission);
          l_name.push_back(ll_name);
          l_RAM.push_back(ll_RAM);
@@ -162,22 +151,18 @@ void MainWindow::load_processes_into_labels(){
          l_user.push_back(ll_user);
          l_cmdline.push_back(ll_cmdline);
          l_threads.push_back(ll_threads);
-         //cmd.push_back(ccmd);
-        // cls.push_back(ccls);
      i++;
      }
 }
 
 void MainWindow::load_labels_into_window(){
-    for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
+    for(uint i = 0; i < sysinfo.get_process_array().size(); i++) {
         QHBoxLayout *hh = new QHBoxLayout();
         hh->addWidget(l_name[i]);
         hh->addWidget(l_RAM[i]);
         hh->addWidget(l_pid[i]);
         hh->addWidget(l_threads[i]);
         hh->addWidget(l_user[i]);
-       // hh->addWidget(cmd[i]);
-       // hh->addWidget(cls[i]);
         h.push_back(hh);
         g->addLayout(h[i],i,1);
     }
@@ -203,8 +188,6 @@ void MainWindow::refresh_cpu() {
 }
 
 void MainWindow::clear_labels_and_window(int number) {
-    //ui->label_17->setText("");
-    //string j = "0";
 
     for(int i = number - 1; i >= 0; i--) {
         allow_deleting_process[i] = true;
@@ -215,9 +198,6 @@ void MainWindow::clear_labels_and_window(int number) {
         l_cmdline[i]->clear();
         l_threads[i]->clear();
 
-        //h[i]->removeWidget(cmd[i]);
-        //h[i]->removeWidget(cls[i]);
-
         allow_deleting_process.pop_back();
         l_name.pop_back();
         l_RAM.pop_back();
@@ -225,19 +205,16 @@ void MainWindow::clear_labels_and_window(int number) {
         l_user.pop_back();
         l_cmdline.pop_back();
         l_threads.pop_back();
-        //cmd.pop_back();
-       //cls.pop_back();
-         h.pop_back();
+        h.pop_back();
     }
-   // l_name.clear();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    string str = "";
+    string str;
     //str += "nohup ";
-    str = ui->lineEdit->text().toStdString();
-   // str += " &";
+    str += ui->lineEdit->text().toStdString();
+    //str += " &";
     if(system(str.c_str()) == 0) {
         ui->label_17->setStyleSheet("QLabel { color : Blue; }");
         ui->label_17->setText("Процесс успешно запущен");
@@ -247,12 +224,6 @@ void MainWindow::on_pushButton_clicked()
     ui->label_17->setText("Неверное имя процесса");
     return;
 
-    //refresh_cpu();
-}
-
-string MainWindow::coutt() {
-    ui->scrollContents->setLayout(g);
-    return sysinfo.get_process_array()[10].get_name();
 }
 
 void MainWindow::on_pushButton_2_clicked() {
@@ -265,9 +236,9 @@ void MainWindow::on_pushButton_3_clicked() {
     string str;
     str = ui->lineEdit->text().toStdString();
     if(!str.size()) ui->label_17->setText("Ошибка! Введите идентификатор процесса");
-    for(int i = 0; i < str.size(); i++) {
+    for(uint i = 0; i < str.size(); i++) {
         if((str[i] > '9') || (str[i] < '0')) {
-        for(int j = 0; j < sysinfo.get_process_array().size(); j++) {
+        for(uint j = 0; j < sysinfo.get_process_array().size(); j++) {
            if(l_name[j]->text().toStdString() == str) {
                if(l_name[j]->text().toStdString() == "systemd") {
                               ui->label_17->setText("Удаление этого процесса небезопасно");
@@ -295,10 +266,9 @@ void MainWindow::on_pushButton_3_clicked() {
         return;
         }
     }
-    //ui->label_16->setText(ui->lineEdit->text());
     int pid = TextTransit::atoi(str);
 
-    for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
+    for(uint i = 0; i < sysinfo.get_process_array().size(); i++) {
 
         if(sysinfo.get_process_array()[i].get_pid() == pid) {
             if(!allow_deleting_process[i]){
@@ -306,11 +276,8 @@ void MainWindow::on_pushButton_3_clicked() {
                 ui->label_17->setText("Процесс уже удален");
                 return;
             }
-//            if(l_name[i]->text().toStdString() == "systemd") {
-//                ui->label_17->setText("Удаление этого процесса небезопасно");
-//                return;
-//            }
-            for(int j = 0; j < sysinfo.get_process_array().size(); j++) {
+
+            for(uint j = 0; j < sysinfo.get_process_array().size(); j++) {
                 if(l_pid[j]->text().toStdString() == TextTransit::itoa(pid)){
                     if(l_name[j]->text().toStdString() == "systemd") {
                                    ui->label_17->setText("Удаление этого процесса небезопасно");
@@ -332,7 +299,6 @@ void MainWindow::on_pushButton_3_clicked() {
     }
     ui->label_17->setText("Ошибка! Нет процесса с таким id/именем");
     return;
-    //ui->label_16->setText(TextTransit::itoa(str.size()).c_str());
 }
 
 void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
@@ -341,7 +307,4 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
     if(arg1.toStdString() == "Загрузка RAM") sorting_type = 2;
     if(arg1.toStdString() == "Имя") sorting_type = 3;
     if(arg1.toStdString() == "К-во потоков") sorting_type = 4;
-    //clear_labels_and_window(sysinfo.get_process_array().size());
-    //load_processes_into_labels();
-    //load_labels_into_window();
 }

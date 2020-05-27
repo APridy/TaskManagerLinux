@@ -1,5 +1,4 @@
 #include "process.h"
-//#include "xtox.cpp"
 
 Process::Process()
 {
@@ -20,7 +19,6 @@ Process::Process(int num)
     cmdline = extract_cmdline();
     mem = extract_mem();
     threads = extract_threads();
-    //cpuper = extract_cpuper();
 }
 
 void Process::set_name(string str) {
@@ -138,36 +136,6 @@ void Process::set_pid(int num) {
 int Process::get_pid() {
    return pid;
 }
-
-
-double Process::extract_cpuper() {
-   string str;
-   str = "top -b -n 1";
-  // str += TextTransit::itoa(pid);
-   str += "| grep ";
-   str += TextTransit::itoa(pid);
-   str += "\\ ";
-   str += user;
-
-   str = TextTransit::systemExec(str.c_str());
-   //str += TextTransit::itoa(pid);
-   //str += " ";
-   //str += user;
-  cout << str << endl;
-
-   return TextTransit::atoi(str);
-   //return pid;
-}
-
-void Process::set_cpuper(double pid) {
-   cpuper = pid;
-}
-
-double Process::get_cpuper() {
-   return pid;
-}
-
-
 
 void Process::print_process() {
     cout << "----------------" << endl << "Name: " << name << endl

@@ -41,7 +41,6 @@ string TextTransit::itoa(int num){
 }
 
 string TextTransit::dtoa(double dnum,int number_of_characters){
-   // return std::to_string(dnum);
     int num = dnum,afterdot;
     dnum -= num;
     string str;

@@ -39,7 +39,7 @@ void SysInfo::delete_process_array(){
 }
 
 void SysInfo::print_processes(){
-    for(int i = 0; i < process_array.size(); i++) {
+    for(uint i = 0; i < process_array.size(); i++) {
     process_array[i].print_process();
     }
 
