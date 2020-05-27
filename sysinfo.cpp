@@ -23,11 +23,19 @@ void SysInfo::refresh_process_array(){
        }
         if(str[i] == '\n') {
             Process pr(pid);
-            process_array.push_back(pr);     
+            process_array.push_back(pr);
             pid = 0;
         }
         i++;
     }
+}
+
+void SysInfo::delete_process_array(){
+    for(int i = process_array.size() ; i > 0 ; i--)
+    {
+        process_array.pop_back();
+    }
+
 }
 
 void SysInfo::print_processes(){

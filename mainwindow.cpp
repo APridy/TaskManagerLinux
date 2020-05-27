@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstdlib>
+#include <QDebug>
 
 using namespace std;
 
@@ -33,6 +34,12 @@ MainWindow::MainWindow(QWidget *parent) :
        ui->verticalLayout_4->addWidget(cpulabels[i]);
        ui->verticalLayout_4->addWidget(cpus[i]);
     }
+   QPixmap pic_delete("/home/tony/projects/TaskManagerSPOVM/close_process.png");
+   QIcon icon_delete(pic_delete);
+   ui->pushButton_3->setIcon(icon_delete);
+   QPixmap pic_create("/home/tony/projects/TaskManagerSPOVM/create_process.png");
+   QIcon icon_create(pic_create);
+   ui->pushButton->setIcon(icon_create);
 
    load_processes_into_labels();
    load_labels_into_window();
@@ -45,35 +52,119 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::load_processes_into_labels(){
+
      QPixmap pic("/home/tony/projects/TaskManagerSPOVM/close_process.png");
      QIcon icon(pic);
-     for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
+
+
+     //for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
+     int i = 0;
+     int j = 0;
+     vector<bool> allow_to_push;
+     allow_to_push.resize(sysinfo.get_process_array().size());
+     for(i = 0; i < allow_to_push.size(); i++){
+       allow_to_push[i] = true;
+     }
+     i = 0;
+     while(i != sysinfo.get_process_array().size()) {
+         bool permission = true;
          QLabel *ll_threads = new QLabel();
          QLabel *ll_RAM = new QLabel();
          QLabel *ll_pid = new QLabel();
          QLabel *ll_user = new QLabel();
          QLabel *ll_cmdline = new QLabel();
-         QPushButton *ccls = new QPushButton();
-         QPushButton *ccmd = new QPushButton();
+         //QPushButton *ccls = new QPushButton();
+         //QPushButton *ccmd = new QPushButton();
          QLabel *ll_name = new QLabel();
-         ll_name->setText(sysinfo.get_process_array()[i].get_name().c_str());
-         ll_RAM->setText(TextTransit::itomem(sysinfo.get_process_array()[i].get_mem()).c_str());
-         ll_pid->setText(TextTransit::itoa(sysinfo.get_process_array()[i].get_pid()).c_str());
-         ll_user->setText(sysinfo.get_process_array()[i].get_user().c_str());
-         ll_cmdline->setText(sysinfo.get_process_array()[i].get_cmdline().c_str());
-         ll_threads->setText(TextTransit::itoa(sysinfo.get_process_array()[i].get_threads()).c_str());
-         ccmd->setMaximumSize(36,22);
-         ccmd->setText("CMD");
-         ccls->setMaximumSize(20,20);
-         ccls->setIcon(pic);
+        // if(sorting_type == 1) {
+         switch(sorting_type) {
+         case 1:{
+             ll_name->setText(sysinfo.get_process_array()[i].get_name().c_str());
+             ll_RAM->setText(TextTransit::itomem(sysinfo.get_process_array()[i].get_mem()).c_str());
+             ll_pid->setText(TextTransit::itoa(sysinfo.get_process_array()[i].get_pid()).c_str());
+             ll_user->setText(sysinfo.get_process_array()[i].get_user().c_str());
+             ll_cmdline->setText(sysinfo.get_process_array()[i].get_cmdline().c_str());
+             ll_threads->setText(TextTransit::itoa(sysinfo.get_process_array()[i].get_threads()).c_str());
+             break;
+         }
+         case 2: {
+             int min_pos;
+             int min_RAM = 0;
+             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+                 if((sysinfo.get_process_array()[j].get_mem() >= min_RAM) && (allow_to_push[j] == true)){
+                 min_RAM = sysinfo.get_process_array()[j].get_mem();
+                 min_pos = j;
+                    }
+                }
+                allow_to_push[min_pos] = false;
+                ll_name->setText(sysinfo.get_process_array()[min_pos].get_name().c_str());
+                ll_RAM->setText(TextTransit::itomem(sysinfo.get_process_array()[min_pos].get_mem()).c_str());
+                ll_pid->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_pid()).c_str());
+                ll_user->setText(sysinfo.get_process_array()[min_pos].get_user().c_str());
+                ll_cmdline->setText(sysinfo.get_process_array()[min_pos].get_cmdline().c_str());
+                ll_threads->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_threads()).c_str());
+             break;
+         }
+         case 3: {
+             ////////////////////////////
+             int min_pos;
+             string max_name = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+                 int k = 0;
+                 while(1) {
+                 if((sysinfo.get_process_array()[j].get_name()[k] < max_name[k]) && (allow_to_push[j] == true)){
+                    max_name = sysinfo.get_process_array()[j].get_name();
+                    min_pos = j;
+                    break;
+                    }
+                 if((sysinfo.get_process_array()[j].get_name()[k] > max_name[k]) || (allow_to_push[j] == false))
+                 break;
+                 k++;
+                 }
+             }
+                allow_to_push[min_pos] = false;
+                ll_name->setText(sysinfo.get_process_array()[min_pos].get_name().c_str());
+                ll_RAM->setText(TextTransit::itomem(sysinfo.get_process_array()[min_pos].get_mem()).c_str());
+                ll_pid->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_pid()).c_str());
+                ll_user->setText(sysinfo.get_process_array()[min_pos].get_user().c_str());
+                ll_cmdline->setText(sysinfo.get_process_array()[min_pos].get_cmdline().c_str());
+                ll_threads->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_threads()).c_str());
+            break;
+         }
+
+         case 4: {
+             int min_pos;
+             int min_threads = 0;
+             for(int j = 0; j < sysinfo.get_process_array().size(); j++){
+                 if((sysinfo.get_process_array()[j].get_threads() >= min_threads) && (allow_to_push[j] == true)){
+                    min_threads = sysinfo.get_process_array()[j].get_threads();
+                    min_pos = j;
+                    }
+                 }
+                allow_to_push[min_pos] = false;
+                ll_name->setText(sysinfo.get_process_array()[min_pos].get_name().c_str());
+                ll_RAM->setText(TextTransit::itomem(sysinfo.get_process_array()[min_pos].get_mem()).c_str());
+                ll_pid->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_pid()).c_str());
+                ll_user->setText(sysinfo.get_process_array()[min_pos].get_user().c_str());
+                ll_cmdline->setText(sysinfo.get_process_array()[min_pos].get_cmdline().c_str());
+                ll_threads->setText(TextTransit::itoa(sysinfo.get_process_array()[min_pos].get_threads()).c_str());
+             break;
+         }
+         }
+        // ccmd->setMaximumSize(36,22);
+         //ccmd->setText("CMD");
+        // ccls->setMaximumSize(20,20);
+         //ccls->setIcon(pic);
+         allow_deleting_process.push_back(permission);
          l_name.push_back(ll_name);
          l_RAM.push_back(ll_RAM);
          l_pid.push_back(ll_pid);
          l_user.push_back(ll_user);
          l_cmdline.push_back(ll_cmdline);
          l_threads.push_back(ll_threads);
-         cmd.push_back(ccmd);
-         cls.push_back(ccls);
+         //cmd.push_back(ccmd);
+        // cls.push_back(ccls);
+     i++;
      }
 }
 
@@ -85,8 +176,8 @@ void MainWindow::load_labels_into_window(){
         hh->addWidget(l_pid[i]);
         hh->addWidget(l_threads[i]);
         hh->addWidget(l_user[i]);
-        hh->addWidget(cmd[i]);
-        hh->addWidget(cls[i]);
+       // hh->addWidget(cmd[i]);
+       // hh->addWidget(cls[i]);
         h.push_back(hh);
         g->addLayout(h[i],i,1);
     }
@@ -94,20 +185,29 @@ void MainWindow::load_labels_into_window(){
 }
 
 
-void MainWindow::refresh_window() {
-   // sysinfo.refresh_process_array();
+void MainWindow::refresh_process_list() {
+    int number = sysinfo.get_process_array().size();
+    sysinfo.delete_process_array();
+    sysinfo.refresh_process_array();
+    clear_labels_and_window(number);
+    load_processes_into_labels();
+    load_labels_into_window();
+}
+
+void MainWindow::refresh_cpu() {
     cpuinfo.refresh_info();
     ui->progressBar->setValue(100*cpuinfo.get_totalRAM_usage()/cpuinfo.get_totalRAM());
     for(int i = 0; i < cpuinfo.get_cpu_num(); i++) {
        cpus[i]->setValue(cpuinfo.get_single_cpu_usage(i));
     }
-
 }
 
-void MainWindow::clear_labels_and_window() {
-    string j = "0";
+void MainWindow::clear_labels_and_window(int number) {
+    //ui->label_17->setText("");
+    //string j = "0";
 
-    for(int i =  sysinfo.get_process_array().size() - 1; i >= 0; i--) {
+    for(int i = number - 1; i >= 0; i--) {
+        allow_deleting_process[i] = true;
         l_name[i]->clear();
         l_RAM[i]->clear();
         l_pid[i]->clear();
@@ -115,29 +215,133 @@ void MainWindow::clear_labels_and_window() {
         l_cmdline[i]->clear();
         l_threads[i]->clear();
 
-        h[i]->removeWidget(cmd[i]);
-        h[i]->removeWidget(cls[i]);
+        //h[i]->removeWidget(cmd[i]);
+        //h[i]->removeWidget(cls[i]);
 
+        allow_deleting_process.pop_back();
         l_name.pop_back();
         l_RAM.pop_back();
         l_pid.pop_back();
         l_user.pop_back();
         l_cmdline.pop_back();
         l_threads.pop_back();
-        cmd.pop_back();
-        cls.pop_back();
-        h.pop_back();
+        //cmd.pop_back();
+       //cls.pop_back();
+         h.pop_back();
     }
-    l_name.clear();
-
+   // l_name.clear();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    refresh_window();
+    string str = "";
+    //str += "nohup ";
+    str = ui->lineEdit->text().toStdString();
+   // str += " &";
+    if(system(str.c_str()) == 0) {
+        ui->label_17->setStyleSheet("QLabel { color : Blue; }");
+        ui->label_17->setText("Процесс успешно запущен");
+        return;
+    }
+    ui->label_17->setStyleSheet("QLabel { color : Red; }");
+    ui->label_17->setText("Неверное имя процесса");
+    return;
+
+    //refresh_cpu();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+string MainWindow::coutt() {
+    ui->scrollContents->setLayout(g);
+    return sysinfo.get_process_array()[10].get_name();
+}
+
+void MainWindow::on_pushButton_2_clicked() {
+     refresh_process_list();
+}
+
+void MainWindow::on_pushButton_3_clicked() {
+    ui->label_17->setStyleSheet("QLabel { color : Red; }");
+    ui->label_17->setText("");
+    string str;
+    str = ui->lineEdit->text().toStdString();
+    if(!str.size()) ui->label_17->setText("Ошибка! Введите идентификатор процесса");
+    for(int i = 0; i < str.size(); i++) {
+        if((str[i] > '9') || (str[i] < '0')) {
+        for(int j = 0; j < sysinfo.get_process_array().size(); j++) {
+           if(l_name[j]->text().toStdString() == str) {
+               if(l_name[j]->text().toStdString() == "systemd") {
+                              ui->label_17->setText("Удаление этого процесса небезопасно");
+                              return;
+                          }
+               if(!allow_deleting_process[j]){
+                   ui->label_17->setStyleSheet("QLabel { color : Blue; }");
+                   ui->label_17->setText("Процесс уже удален");
+                   return;
+               }
+               int pid = TextTransit::atoi(l_pid[j]->text().toStdString());
+               l_name[j]->setStyleSheet("QLabel { color : Red; }");
+               l_pid[j]->setStyleSheet("QLabel { color : Red; }");
+               l_RAM[j]->setStyleSheet("QLabel { color : Red; }");
+               l_threads[j]->setStyleSheet("QLabel { color : Red; }");
+               l_user[j]->setStyleSheet("QLabel { color : Red; }");
+               ui->label_17->setStyleSheet("QLabel { color : Blue; }");
+               ui->label_17->setText("Процесс успешно удален");
+               allow_deleting_process[j] = false;
+               kill(pid,9);
+               return;
+           }
+        }
+        ui->label_17->setText("Ошибка! Не существует процесса с таким id/именем");
+        return;
+        }
+    }
+    //ui->label_16->setText(ui->lineEdit->text());
+    int pid = TextTransit::atoi(str);
+
+    for(int i = 0; i < sysinfo.get_process_array().size(); i++) {
+
+        if(sysinfo.get_process_array()[i].get_pid() == pid) {
+            if(!allow_deleting_process[i]){
+                ui->label_17->setStyleSheet("QLabel { color : Blue; }");
+                ui->label_17->setText("Процесс уже удален");
+                return;
+            }
+//            if(l_name[i]->text().toStdString() == "systemd") {
+//                ui->label_17->setText("Удаление этого процесса небезопасно");
+//                return;
+//            }
+            for(int j = 0; j < sysinfo.get_process_array().size(); j++) {
+                if(l_pid[j]->text().toStdString() == TextTransit::itoa(pid)){
+                    if(l_name[j]->text().toStdString() == "systemd") {
+                                   ui->label_17->setText("Удаление этого процесса небезопасно");
+                                   return;
+                               }
+                    l_name[j]->setStyleSheet("QLabel { color : Red; }");
+                    l_pid[j]->setStyleSheet("QLabel { color : Red; }");
+                    l_RAM[j]->setStyleSheet("QLabel { color : Red; }");
+                    l_threads[j]->setStyleSheet("QLabel { color : Red; }");
+                    l_user[j]->setStyleSheet("QLabel { color : Red; }");
+                    ui->label_17->setStyleSheet("QLabel { color : Blue; }");
+                    ui->label_17->setText("Процесс успешно удален");
+                    allow_deleting_process[i] = false;
+                    kill(pid,9);
+                    return;
+                    }
+                }
+            }
+    }
+    ui->label_17->setText("Ошибка! Нет процесса с таким id/именем");
+    return;
+    //ui->label_16->setText(TextTransit::itoa(str.size()).c_str());
+}
+
+void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 {
-    clear_labels_and_window();
+    if(arg1.toStdString() == "Идентификатор") sorting_type = 1;
+    if(arg1.toStdString() == "Загрузка RAM") sorting_type = 2;
+    if(arg1.toStdString() == "Имя") sorting_type = 3;
+    if(arg1.toStdString() == "К-во потоков") sorting_type = 4;
+    //clear_labels_and_window(sysinfo.get_process_array().size());
+    //load_processes_into_labels();
+    //load_labels_into_window();
 }

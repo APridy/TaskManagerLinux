@@ -8,7 +8,7 @@ CPUInfo::CPUInfo()
     set_totalRAM(extract_totalRAM());
     set_totalRAM_usage(extract_totalRAM_usage());
     cpu_usage.resize(TextTransit::atoi(TextTransit::systemExec("cat /proc/cpuinfo | grep processor | wc -l")));
-    set_cpu_usage(extract_cpu_usage());
+   // set_cpu_usage(extract_cpu_usage());
 }
 
 string CPUInfo::get_model() {
@@ -86,16 +86,22 @@ vector<int> CPUInfo::extract_cpu_usage() {
     vector<int> CPUusage;
     string str,individual_cpu_usage;
     for(int i = 0; i < cpu_num; i++) {
-    str = "mpstat -P ALL | grep \"M    \"";
+    str = "mpstat -P ALL 1 1| grep \"Average:       \"";
     str += TextTransit::itoa(i);
     str = TextTransit::systemExec(str.c_str());
     individual_cpu_usage = "";
-    int j = 18;
-        while(str[j] != '.') {
+    int j = 1;
+    for(int k = 0; k < 11;k++) {
+       while(str[j] != ' ') j++;
+       while(str[j] == ' ') j++;
+    }
+
+    while(str[j] != '.') {
             if(str[j] != ' ') individual_cpu_usage += str[j];
             j++;
-        }
-    CPUusage.push_back(TextTransit::atoi(individual_cpu_usage));
+    }
+
+    CPUusage.push_back(100 - TextTransit::atoi(individual_cpu_usage));
     }
     return CPUusage;
 }

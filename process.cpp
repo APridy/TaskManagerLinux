@@ -9,6 +9,7 @@ Process::Process()
     mem = 0;
     threads = 0;
     pid = 0;
+    cpuper = 0;
 }
 
 Process::Process(int num)
@@ -19,7 +20,7 @@ Process::Process(int num)
     cmdline = extract_cmdline();
     mem = extract_mem();
     threads = extract_threads();
-
+    //cpuper = extract_cpuper();
 }
 
 void Process::set_name(string str) {
@@ -138,10 +139,40 @@ int Process::get_pid() {
    return pid;
 }
 
+
+double Process::extract_cpuper() {
+   string str;
+   str = "top -b -n 1";
+  // str += TextTransit::itoa(pid);
+   str += "| grep ";
+   str += TextTransit::itoa(pid);
+   str += "\\ ";
+   str += user;
+
+   str = TextTransit::systemExec(str.c_str());
+   //str += TextTransit::itoa(pid);
+   //str += " ";
+   //str += user;
+  cout << str << endl;
+
+   return TextTransit::atoi(str);
+   //return pid;
+}
+
+void Process::set_cpuper(double pid) {
+   cpuper = pid;
+}
+
+double Process::get_cpuper() {
+   return pid;
+}
+
+
+
 void Process::print_process() {
     cout << "----------------" << endl << "Name: " << name << endl
     << "Memory: " << TextTransit::itomem(mem) << endl  << "Pid: " << pid << endl << "User: " << user << endl
-    <<  "Threads: " << threads << endl << "Cmdline: " << cmdline << endl ;
+    <<  "Threads: " << threads << endl << "Cmdline: " << cmdline << endl << "Cpuper: " << cpuper << endl;
 
 }
 

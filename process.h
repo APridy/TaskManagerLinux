@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <sys/stat.h>
+#include <termcap.h>
+#include <sys/types.h>
+#include <signal.h>
 
 using namespace std;
 
@@ -17,6 +21,7 @@ private:
     int mem;
     int threads;
     int pid;
+    double cpuper;
 public:
     Process();
     Process(int);
@@ -26,6 +31,7 @@ public:
     void set_mem(int);
     void set_threads(int);
     void set_pid(int);
+    void set_cpuper(double);
 
     string get_name();
     string get_user();
@@ -33,6 +39,7 @@ public:
     int get_mem();
     int get_threads();
     int get_pid();
+    double get_cpuper();
 
     string extract_name();
     string extract_user();
@@ -40,6 +47,7 @@ public:
     int extract_mem();
     int extract_threads();
     int extract_pid();
+    double extract_cpuper();
 
     void print_process();
 };

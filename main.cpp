@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstdlib>
-
+#include <infoupdaterthread.h>
 
 
 using namespace std;
@@ -15,9 +15,11 @@ string result;
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
     MainWindow w;
-
     w.show();
+    InfoUpdaterThread info_updater("InfoUpdater", &w);
+    info_updater.start();
     return a.exec();
 }

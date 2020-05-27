@@ -31,6 +31,9 @@ public:
     SysInfo sysinfo;
     CPUInfo cpuinfo;
 
+    int sorting_type = 1;
+    string min_name = "zzzzzzzzzzzz";
+
     QGridLayout *g = new QGridLayout();
 
     vector<QHBoxLayout*> h;
@@ -40,21 +43,27 @@ public:
     vector<QLabel*> l_pid ;
     vector<QLabel*> l_user ;
     vector<QLabel*> l_cmdline ;
-    vector<QPushButton*> cls;
-    vector<QPushButton*> cmd;
+    vector<bool> allow_deleting_process;
+    //vector<QPushButton*> cls;
+    //vector<QPushButton*> cmd;
 
     vector<QLabel*> cpulabels;
     vector<QProgressBar*> cpus;
-
     void load_processes_into_labels();
-    void clear_labels_and_window();
+    void clear_labels_and_window(int number);
     void load_labels_into_window();
-    void refresh_window();
+    void refresh_process_list();
+    void refresh_cpu();
+    string coutt();
     ~MainWindow();
 
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_comboBox_currentTextChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

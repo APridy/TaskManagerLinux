@@ -16,6 +16,7 @@ private:
 public:
     SysInfo();
     void refresh_process_array();
+    void delete_process_array();
 
     vector<Process> get_process_array();
     int get_mem(int);
